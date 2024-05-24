@@ -1,0 +1,232 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgba(54, 132, 223, 1) 100%);
+}
+
+.form-control {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.form-control input, .form-control select {
+    flex: 1;
+    padding: .4rem .5rem;
+    border: 1px solid #858585;
+    outline: none;
+    box-shadow: none;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+}
+
+.form-control button {
+    background-color: #76df76;
+    border: none;
+    color: white;
+    padding: .4rem .8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-control button:hover {
+    background-color: green;
+}
+
+.date-hour {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem 1rem 1.5rem 1rem;
+    font-size: 16px;
+    color: #102f5e;
+}
+
+button {
+    background-color: darkorange;
+    color: #102f5e;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    font-size: .8rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.4s;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: orangered;
+    color: white;
+}
+
+button > i {
+    pointer-events: none;
+}
+
+.hide {
+    display: none;
+}
+
+.todo-container {
+    background-color: #ecf0f1;
+    border-radius: 15px;
+    width: 650px;
+    margin: 3rem auto;
+    padding: 1.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.todo-container header {
+    padding: 0 1rem 1rem;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+header > h1 {
+    padding-left: 16px;
+    border-left: 5px solid #e74c3c;
+}
+
+#todo-form, #edit-form {
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+}
+
+#todo-form > p, #edit-form > p {
+    margin-bottom: .5rem;
+    font-weight: bold;
+}
+
+#cancel-edit-btn {
+    margin-top: 1rem;
+}
+
+.todo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem 0.2rem;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+.todo h3 {
+    flex: 1;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.todo span.task-type {
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.todo button {
+    margin-left: 0.4rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #ecf0f1;
+    color: #102f5e;
+}
+
+.todo button:hover {
+    background-color: #395169;
+    color: #ecf0f1;
+}
+
+.todo.done {
+    background-color: green;
+}
+
+.todo.done h3 {
+    color: white;
+    text-decoration: line-through;
+    font-style: italic;
+}
+
+.todo.done button:hover {
+    background-color: #ecf0f1;
+    color: #102F5e;
+}
+
+#todo-list {
+    max-height: 220px;
+    overflow: auto;
+}
+
+.controls {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filters {
+    display: flex;
+    gap: 1rem;
+}
+
+.filters span {
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.filters span.active {
+    font-weight: bold;
+    background-color: rgba(54, 132, 223, 0.2);
+}
+
+.filters span:hover {
+    background-color: rgba(54, 132, 223, 0.2);
+}
+
+.clear-btn {
+    background-color: #f74c4c;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.clear-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Add this CSS code */
+#filter-select {
+    flex: 1;
+    padding: .4rem .5rem;
+    border: 1px solid #858585;
+    outline: none;
+    box-shadow: none;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+    background-color: #fff; /* Set background color */
+    color: #777; /* Set text color */
+}
+
+#filter-select:hover,
+#filter-select:focus {
+    border-color: #395169; /* Set border color on hover/focus */
+}
+
+#filter-select option {
+    background-color: #fff; /* Set background color for options */
+    color: #102f5e; /* Set text color for options */
+}
