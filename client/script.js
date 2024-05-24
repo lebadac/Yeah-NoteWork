@@ -1,3 +1,4 @@
+// Select elements from the DOM
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
 const taskTypeInput = document.querySelector("#task-type");
@@ -11,23 +12,28 @@ const filterSelect = document.querySelector("#filter-select");
 let oldInputValue; // Declare globally
 let oldTaskType; // Declare globally
 
+// Display the current date
 const timeElapsed = Date.now();
 const today = new Date(timeElapsed);
 document.getElementById("date").innerHTML = today.toDateString();
 
+// Function to display current time and update every half second
 function time() {
     const data = new Date();
     let h = data.getHours();
     let m = data.getMinutes();
     let s = data.getSeconds();
 
+    // Add leading zeros if necessary
     if (h < 10) h = "0" + h;
     if (m < 10) m = "0" + m;
     if (s < 10) s = "0" + s;
+
     document.getElementById("hour").innerHTML = h + ":" + m + ":" + s;
     setTimeout(time, 500);
 }
 
+// Add event listener for the form submission to add a new todo
 todoForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const inputValue = todoInput.value;
@@ -35,6 +41,7 @@ todoForm.addEventListener("submit", (e) => {
     if (inputValue) saveTodo(inputValue, taskTypeValue);
 });
 
+// Function to save a new todo item
 const saveTodo = (text, type) => {
     const todo = document.createElement("div");
     todo.classList.add("todo");
@@ -69,6 +76,7 @@ const saveTodo = (text, type) => {
     todoInput.focus();
 };
 
+// Add event listener for document clicks to handle various actions
 document.addEventListener("click", (e) => {
     const targetE1 = e.target;
     const parentE1 = targetE1.closest(".todo");
@@ -130,6 +138,7 @@ document.addEventListener("click", (e) => {
     }
 });
 
+// Function to toggle the visibility of forms and controls
 const toggleForms = () => {
     editForm.classList.toggle("hide");
     todoForm.classList.toggle("hide");
@@ -137,11 +146,13 @@ const toggleForms = () => {
     controls.classList.toggle("hide"); // Toggle the visibility of the controls section
 };
 
+// Add event listener to cancel edit action
 cancelEditBtn.addEventListener("click", (e) => {
     e.preventDefault();
     toggleForms();
 });
 
+// Add event listener for the edit form submission to update a todo
 editForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -152,6 +163,7 @@ editForm.addEventListener("submit", (e) => {
     toggleForms();
 });
 
+// Function to update a todo item
 const updateTodo = (text, type) => {
     const todos = document.querySelectorAll(".todo");
     todos.forEach((todo) => {
@@ -164,10 +176,12 @@ const updateTodo = (text, type) => {
     });
 };
 
+// Function to clear all todo items
 const clearAllTodos = () => {
     todoList.innerHTML = "";
 };
 
+// Function to filter todo items based on a filter type
 const filterTodos = (filter) => {
     const todos = document.querySelectorAll(".todo");
     todos.forEach((todo) => {
@@ -220,6 +234,7 @@ const filterTodos = (filter) => {
         }
     });
 
+    // Highlight the selected filter
     document.querySelectorAll(".filters span").forEach((span) => {
         span.classList.remove("active");
     });
