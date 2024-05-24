@@ -273,3 +273,20 @@ header > h1 {
     margin-bottom: 0.5rem; /* Add some spacing below the select element */
 }
 
+.todo span.task-type[data-color="urgent-important"] {
+    color: red !important; /* Màu cho loại "Urgent and Important" */
+}
+
+.todo span.task-type[data-color="urgent-not-important"] {
+    color: orange !important; /* Màu cho loại "Urgent and Not Important" */
+}
+
+.todo span.task-type[data-color="not-urgent-important"] {
+    color: blue !important; /* Màu cho loại "Not Urgent and Important" */
+}
+
+.todo span.task-type[data-color="not-urgent-not-important"] {
+    color: green !important; /* Màu cho loại "Not Urgent and Not Important" */
+}
+
+

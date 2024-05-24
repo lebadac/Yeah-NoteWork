@@ -53,6 +53,7 @@ const saveTodo = (text, type) => {
     const taskTypeSpan = document.createElement("span");
     taskTypeSpan.classList.add("task-type");
     taskTypeSpan.innerText = type;
+    taskTypeSpan.setAttribute("data-color", type); // Thiết lập data-color cho span
     todo.appendChild(taskTypeSpan);
 
     const doneBtn = document.createElement("button");
