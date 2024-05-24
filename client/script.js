@@ -247,3 +247,4 @@ filterSelect.addEventListener("change", (e) => {
     const selectedValue = e.target.value;
     filterTodos(selectedValue); // Call the filterTodos function with the selected value
 });
+

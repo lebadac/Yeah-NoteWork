@@ -6,8 +6,12 @@
 
 body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgba(54, 132, 223, 1) 100%);
+    background: url('https://wallpaperaccess.com/full/9216977.gif');
+    background-size: cover; /* Đảm bảo hình nền ảnh tràn toàn bộ màn hình */
+    background-repeat: no-repeat; /* Ngăn hình nền ảnh lặp lại */
+    background-position: center; /* Căn giữa hình nền ảnh */
 }
+
 
 .form-control {
     display: flex;
@@ -24,6 +28,7 @@ body {
     border-radius: 5px;
     margin-right: 0.5rem;
 }
+
 
 .form-control button {
     background-color: #76df76;
@@ -76,7 +81,7 @@ button > i {
 }
 
 .todo-container {
-    background-color: #ecf0f1;
+    background-color: rgba(236, 240, 241, 0.5);
     border-radius: 15px;
     width: 650px;
     margin: 3rem auto;
@@ -146,7 +151,7 @@ header > h1 {
 }
 
 .todo.done {
-    background-color: green;
+    background-color: #13dda0; 
 }
 
 .todo.done h3 {
@@ -161,7 +166,7 @@ header > h1 {
 }
 
 #todo-list {
-    max-height: 220px;
+    max-height: 340px;
     overflow: auto;
 }
 
@@ -230,3 +235,39 @@ header > h1 {
     background-color: #fff; /* Set background color for options */
     color: #102f5e; /* Set text color for options */
 }
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 768px) {
+    .todo-container {
+        width: 90%; /* Thay đổi chiều rộng container cho thiết bị nhỏ hơn */
+    }
+
+    .form-control input, .form-control select {
+        width: 70%; /* Thay đổi chiều rộng input và select cho thiết bị nhỏ hơn */
+    }
+
+    .form-control button {
+        width: 25%; /* Thay đổi chiều rộng của nút cho thiết bị nhỏ hơn */
+    }
+
+    .date-hour {
+        font-size: 14px; /* Giảm kích thước chữ cho thiết bị nhỏ hơn */
+    }
+
+    .todo h3 {
+        font-size: 0.8rem; /* Giảm kích thước chữ cho thiết bị nhỏ hơn */
+    }
+}
+
+.controls .filters {
+    display: flex;
+    flex-wrap: wrap; /* Allow flex items to wrap to the next line */
+    gap: 1rem; /* Add some space between flex items */
+}
+
+.controls .filters select {
+    flex-grow: 1; /* Allow the select element to grow and fill available space */
+    margin-right: 0.5rem; /* Add some spacing between the select and other elements */
+    margin-bottom: 0.5rem; /* Add some spacing below the select element */
+}
+
