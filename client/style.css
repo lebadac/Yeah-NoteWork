@@ -7,10 +7,12 @@
 body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     background: url('https://wallpaperaccess.com/full/9216977.gif');
-    background-size: cover; /* Đảm bảo hình nền ảnh tràn toàn bộ màn hình */
-    background-repeat: no-repeat; /* Ngăn hình nền ảnh lặp lại */
-    background-position: center; /* Căn giữa hình nền ảnh */
+    background-size: cover; /* Ensure the background image covers the entire background area */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    background-position: center; /* Center the background image */
+    min-height: 100vh; /* Set a minimum height to ensure the background image is fully visible */
 }
+
 
 
 .form-control {
