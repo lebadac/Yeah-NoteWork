@@ -17,36 +17,53 @@ function fetchNotesAndUpdateHTML() {
 }
 
 function renderNotes(data) {
-    const notesContainerElement = document.getElementById('notes-container');
+    const todoListElement = document.getElementById('todo-list');
 
-    if (notesContainerElement) {
-        // Clear the notes container
-        notesContainerElement.innerHTML = '';
+    if (todoListElement) {
+        // Clear the todo list
+        todoListElement.innerHTML = '';
 
         // Loop through the data and create HTML elements
         data.forEach(note => {
-            const noteElement = document.createElement('div');
-            noteElement.classList.add('note');
+            const todoElement = document.createElement('div');
+            todoElement.classList.add('todo');
 
-            const taskNameElement = document.createElement('span');
+            const taskNameElement = document.createElement('h3');
             taskNameElement.textContent = note.TaskName;
 
             const typeElement = document.createElement('span');
+            typeElement.classList.add('task-type');
+            typeElement.style.color = 'red'; // Assuming 'urgent-important' is a red task
             typeElement.textContent = note.Type;
 
-            const statusElement = document.createElement('span');
-            statusElement.textContent = note.Status;
+            const finishTodoButton = document.createElement('button');
+            finishTodoButton.classList.add('finish-todo');
+            const finishTodoIcon = document.createElement('i');
+            finishTodoIcon.classList.add('fa-solid', 'fa-check');
+            finishTodoButton.appendChild(finishTodoIcon);
 
-            noteElement.appendChild(taskNameElement);
-            noteElement.appendChild(document.createTextNode(' - '));
-            noteElement.appendChild(typeElement);
-            noteElement.appendChild(document.createTextNode(' - '));
-            noteElement.appendChild(statusElement);
+            const editTodoButton = document.createElement('button');
+            editTodoButton.classList.add('edit-todo');
+            const editTodoIcon = document.createElement('i');
+            editTodoIcon.classList.add('fa-solid', 'fa-pen');
+            editTodoButton.appendChild(editTodoIcon);
 
-            notesContainerElement.appendChild(noteElement);
+            const removeTodoButton = document.createElement('button');
+            removeTodoButton.classList.add('remove-todo');
+            const removeTodoIcon = document.createElement('i');
+            removeTodoIcon.classList.add('fa-solid', 'fa-xmark');
+            removeTodoButton.appendChild(removeTodoIcon);
+
+            todoElement.appendChild(taskNameElement);
+            todoElement.appendChild(typeElement);
+            todoElement.appendChild(finishTodoButton);
+            todoElement.appendChild(editTodoButton);
+            todoElement.appendChild(removeTodoButton);
+
+            todoListElement.appendChild(todoElement);
         });
     } else {
-        console.error('Error: #notes-container element not found in the DOM');
+        console.error('Error: #todo-list element not found in the DOM');
     }
 }
 
