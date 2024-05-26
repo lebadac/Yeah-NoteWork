@@ -70,7 +70,3 @@ function renderNotes(data) {
 // Fetch and render the notes
 fetchNotesAndUpdateHTML()
     .catch(error => console.error('Error rendering notes:', error));
-
-// Fetch and render the notes
-fetchNotesAndUpdateHTML()
-    .catch(error => console.error('Error rendering notes:', error));
