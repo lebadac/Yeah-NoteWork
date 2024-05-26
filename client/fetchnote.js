@@ -1,5 +1,5 @@
 function fetchNotesAndUpdateHTML() {
-    return fetch('/notes')
+    return fetch('http://localhost:2001/notes')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -19,32 +19,40 @@ function fetchNotesAndUpdateHTML() {
 function renderNotes(data) {
     const notesContainerElement = document.getElementById('notes-container');
 
-    // Clear the notes container
-    notesContainerElement.innerHTML = '';
+    if (notesContainerElement) {
+        // Clear the notes container
+        notesContainerElement.innerHTML = '';
 
-    // Loop through the data and create HTML elements
-    data.forEach(note => {
-        const noteElement = document.createElement('div');
-        noteElement.classList.add('note');
+        // Loop through the data and create HTML elements
+        data.forEach(note => {
+            const noteElement = document.createElement('div');
+            noteElement.classList.add('note');
 
-        const taskNameElement = document.createElement('span');
-        taskNameElement.textContent = note.TaskName;
+            const taskNameElement = document.createElement('span');
+            taskNameElement.textContent = note.TaskName;
 
-        const typeElement = document.createElement('span');
-        typeElement.textContent = note.Type;
+            const typeElement = document.createElement('span');
+            typeElement.textContent = note.Type;
 
-        const statusElement = document.createElement('span');
-        statusElement.textContent = note.Status;
+            const statusElement = document.createElement('span');
+            statusElement.textContent = note.Status;
 
-        noteElement.appendChild(taskNameElement);
-        noteElement.appendChild(document.createTextNode(' - '));
-        noteElement.appendChild(typeElement);
-        noteElement.appendChild(document.createTextNode(' - '));
-        noteElement.appendChild(statusElement);
+            noteElement.appendChild(taskNameElement);
+            noteElement.appendChild(document.createTextNode(' - '));
+            noteElement.appendChild(typeElement);
+            noteElement.appendChild(document.createTextNode(' - '));
+            noteElement.appendChild(statusElement);
 
-        notesContainerElement.appendChild(noteElement);
-    });
+            notesContainerElement.appendChild(noteElement);
+        });
+    } else {
+        console.error('Error: #notes-container element not found in the DOM');
+    }
 }
+
+// Fetch and render the notes
+fetchNotesAndUpdateHTML()
+    .catch(error => console.error('Error rendering notes:', error));
 
 // Fetch and render the notes
 fetchNotesAndUpdateHTML()
