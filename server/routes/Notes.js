@@ -1,27 +1,31 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { Notes } = require("../models");
+const { Notes } = require('../models');
 
-// Request to get all notes
-router.get("/", async (req, res) => {
+// Route to get all notes
+router.get('/', async (req, res) => {
   try {
     const listOfNotes = await Notes.findAll({
-      order: [["ID", "DESC"]], // Sort by Num column in descending order
+      order: [['ID', 'DESC']], // Sort by ID column in descending order
     });
     res.json(listOfNotes);
   } catch (error) {
-    console.error("Error fetching notes:", error);
-    res.status(500).json({ error: "Server error" });
+    console.error('Error fetching notes:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-
-
-// Request to create a new student
-router.post("/", async (req, res) => {
-  const note = req.body;
-  await Notes.create(note);
-  res.json(note);
+// Route to create a new note
+router.post('/', async (req, res) => {  // Correct path: '/notes' is redundant because this file is mounted at '/notes'
+  try {
+    console.log('Request body:', req.body); // Debug log
+    const { TaskName, Type, Status } = req.body;
+    const newNote = await Notes.create({ TaskName, Type, Status });
+    res.status(201).json(newNote);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Failed to add task' });
+  }
 });
 
 module.exports = router;
