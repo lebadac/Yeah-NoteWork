@@ -50,9 +50,9 @@ document.addEventListener("click", (e) => {
         parentE1.classList.toggle("done");
     }
 
-    if (targetE1.classList.contains("remove-todo")) {
-        parentE1.remove();
-    }
+    // if (targetE1.classList.contains("remove-todo")) {
+    //     parentE1.remove();
+    // }
 
     if (targetE1.classList.contains("edit-todo")) {
         toggleForms();
@@ -138,10 +138,41 @@ const updateTodo = (text, type) => {
     });
 };
 
+
 // Function to clear all todo items
 const clearAllTodos = () => {
-    todoList.innerHTML = "";
+    // Fetch all notes to get their IDs
+    fetch('http://localhost:2001/notes')
+        .then(response => response.json())
+        .then(data => {
+            // Loop through each note and delete it
+            data.forEach(note => {
+                fetch(`http://localhost:2001/notes/${note.id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log(`Task ${note.id} deleted`);
+                        // Clear the UI element
+                        const todoElement = document.querySelector(`.todo[data-task-id="${note.id}"]`);
+                        if (todoElement) {
+                            todoElement.remove();
+                            alert(`Task ${note.id} deleted successfully!`); // Thông báo khi xoá thành công
+                        }
+                    } else {
+                        console.error(`Error deleting task ${note.id}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching notes:', error);
+        });
 };
+
 
 // Function to filter todo items based on a filter type
 const filterTodos = (filter) => {
