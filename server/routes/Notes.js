@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 // Route to create a new note
-router.post('/', async (req, res) => {  // Correct path: '/notes' is redundant because this file is mounted at '/notes'
+router.post('/', async (req, res) => {
   try {
     console.log('Request body:', req.body); // Debug log
     const { TaskName, Type, Status } = req.body;
@@ -25,6 +25,42 @@ router.post('/', async (req, res) => {  // Correct path: '/notes' is redundant b
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Failed to add task' });
+  }
+});
+// Route to update the status of a task
+router.put('/:taskId', async (req, res) => {
+  try {
+    const { Id } = req.params;
+
+    // Find the user by ID
+    const notes = await Notes.findOne({ ID: Id });
+
+    if (!notes) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+
+    // Update the user's status
+    notes.Status = "Done";
+    await notes.save();
+    res.json(notes);
+  } catch (error) {
+    console.error("Error updating user status:", error);
+    res.status(500).json({ message: "Error updating user status" });
+  }
+});
+// Route to delete a task by ID
+router.delete('/:taskId', async (req, res) => {
+  try {
+    const deletedCount = await Notes.destroy({
+      where: { id: req.params.taskId },
+    });
+    if (deletedCount === 0) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+    res.json({ message: 'Task deleted' });
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
