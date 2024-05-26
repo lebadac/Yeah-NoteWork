@@ -2,12 +2,12 @@ module.exports = (sequelize, DataTypes) => {
   const Notes = sequelize.define(
     "Notes",
     {
-      ID: {
-        type: DataTypes.INTEGER, // Corrected to lowercase "integer"
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-      },
+    //   ID: {
+    //     type: DataTypes.INTEGER, // Corrected to lowercase "integer"
+    //     allowNull: false,
+    //     primaryKey: true,
+    //     autoIncrement: true,
+    //   },
       TaskName: {
         type: DataTypes.STRING,
         allowNull: false,
