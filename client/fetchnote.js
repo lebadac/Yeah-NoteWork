@@ -33,8 +33,28 @@ function renderNotes(data) {
 
             const typeElement = document.createElement('span');
             typeElement.classList.add('task-type');
-            typeElement.style.color = note.Type === 'urgent-important' ? 'red' : 'inherit'; // Assuming 'urgent-important' is a red task
             typeElement.textContent = note.Type;
+            
+            // Set color based on the type
+            switch (note.Type) {
+                case 'urgent-important':
+                    typeElement.style.color = 'red';
+                    break;
+                case 'urgent-not-important':
+                    typeElement.style.color = 'blue';
+                    break;
+                case 'not-urgent-important':
+                    typeElement.style.color = 'green';
+                    break;
+                case 'not-urgent-not-important':
+                    typeElement.style.color = 'black';
+                    break;
+                default:
+                    typeElement.style.color = 'black';
+            }
+            
+            // Add data-color attribute
+            typeElement.setAttribute("data-color", note.Type);
 
             const finishTodoButton = document.createElement('button');
             finishTodoButton.classList.add('finish-todo');
@@ -72,6 +92,9 @@ function renderNotes(data) {
     }
 }
 function markTaskAsDone(taskId) {
+    // Log current task ID
+    console.log('Current task ID:', taskId);
+
     // Code to update the task status to "Done" on the server
     fetch(`http://localhost:2001/notes/${taskId}`, {
         method: 'PUT',
@@ -83,17 +106,33 @@ function markTaskAsDone(taskId) {
         .then(response => {
             if (response.ok) {
                 console.log('Task marked as done');
-                // Refresh the UI by calling fetchNotesAndUpdateHTML()
-                fetchNotesAndUpdateHTML()
-                    .catch(error => console.error('Error rendering notes:', error));
+
+                // Parse response body as JSON
+                return response.json();
             } else {
                 console.error('Error marking task as done');
+            }
+        })
+        .then(data => {
+            // Log data when found in the database
+            console.log('Data found in database:', data);
+
+            // Update the UI to reflect the change immediately
+            const todoElement = document.querySelector(`.todo[data-task-id="${taskId}"]`);
+            if (todoElement) {
+                if (todoElement.classList.contains('done')) {
+                    todoElement.classList.remove('done');
+                } else {
+                    todoElement.classList.add('done');
+                }
             }
         })
         .catch(error => {
             console.error('Error updating task status:', error);
         });
 }
+
+
 function removeTask(taskId) {
     fetch(`http://localhost:2001/notes/${taskId}`, {
         method: 'DELETE'

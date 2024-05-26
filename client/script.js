@@ -1,5 +1,5 @@
 // Select elements from the DOM
-const todoForm = document.querySelector("#todo-form");
+
 const todoInput = document.querySelector("#todo-input");
 const taskTypeInput = document.querySelector("#task-type");
 const todoList = document.querySelector("#todo-list");
@@ -33,49 +33,6 @@ function time() {
     setTimeout(time, 500);
 }
 
-// // Add event listener for the form submission to add a new todo
-// todoForm.addEventListener("submit", (e) => {
-//     e.preventDefault();
-//     const inputValue = todoInput.value;
-//     const taskTypeValue = taskTypeInput.value;
-//     if (inputValue) saveTodo(inputValue, taskTypeValue);
-// });
-
-// Function to save a new todo item
-const saveTodo = (text, type) => {
-    const todo = document.createElement("div");
-    todo.classList.add("todo");
-
-    const todoTitle = document.createElement("h3");
-    todoTitle.innerText = text;
-    todo.appendChild(todoTitle);
-
-    const taskTypeSpan = document.createElement("span");
-    taskTypeSpan.classList.add("task-type");
-    taskTypeSpan.innerText = type;
-    taskTypeSpan.setAttribute("data-color", type); // Thiết lập data-color cho span
-    todo.appendChild(taskTypeSpan);
-
-    const doneBtn = document.createElement("button");
-    doneBtn.classList.add("finish-todo");
-    doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
-    todo.appendChild(doneBtn);
-
-    const editBtn = document.createElement("button");
-    editBtn.classList.add("edit-todo");
-    editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
-    todo.appendChild(editBtn);
-
-    const removeBtn = document.createElement("button");
-    removeBtn.classList.add("remove-todo");
-    removeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-    todo.appendChild(removeBtn);
-
-    todoList.appendChild(todo);
-    todoInput.value = "";
-    taskTypeInput.value = "urgent-important";
-    todoInput.focus();
-};
 
 // Add event listener for document clicks to handle various actions
 document.addEventListener("click", (e) => {
@@ -249,40 +206,6 @@ filterSelect.addEventListener("change", (e) => {
     filterTodos(selectedValue); // Call the filterTodos function with the selected value
 });
 
-// BACKEND
 
-todoForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const taskName = todoInput.value;
-    const taskType = taskTypeInput.value;
-
-    try {
-        const response = await fetch('http://localhost:2001/notes', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                TaskName: taskName,
-                Type: taskType,
-                Status: 'pending', // Assuming default status as 'pending'
-            }),
-        });
-
-        if (response.ok) {
-            const responseData = await response.json();
-            alert('Task added successfully!');
-            // Clear the input fields
-            todoInput.value = '';
-            taskTypeInput.value = 'urgent-important';
-        } else {
-            const errorMessage = await response.text();
-            alert('Failed to add task. Error: ' + errorMessage);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to add task. Error: ' + error.message);
-    }
-});
 
 
