@@ -27,6 +27,7 @@ function renderNotes(data) {
         data.forEach(note => {
             const todoElement = document.createElement('div');
             todoElement.classList.add('todo');
+            todoElement.dataset.id = note.id; // Add data-id attribute
 
             const taskNameElement = document.createElement('h3');
             taskNameElement.textContent = note.TaskName;
@@ -34,7 +35,7 @@ function renderNotes(data) {
             const typeElement = document.createElement('span');
             typeElement.classList.add('task-type');
             typeElement.textContent = note.Type;
-            
+
             // Set color based on the type
             switch (note.Type) {
                 case 'urgent-important':
@@ -52,7 +53,7 @@ function renderNotes(data) {
                 default:
                     typeElement.style.color = 'black';
             }
-            
+
             // Add data-color attribute
             typeElement.setAttribute("data-color", note.Type);
 
@@ -63,9 +64,14 @@ function renderNotes(data) {
             finishTodoIcon.classList.add('fa-solid', 'fa-check');
             finishTodoButton.appendChild(finishTodoIcon);
 
+
+
             const editTodoButton = document.createElement('button');
             editTodoButton.classList.add('edit-todo');
             const editTodoIcon = document.createElement('i');
+            editTodoButton.addEventListener('click', () => {
+                localStorage.setItem('editingTaskId', note.id);
+            });
             editTodoIcon.classList.add('fa-solid', 'fa-pen');
             editTodoButton.appendChild(editTodoIcon);
 
@@ -74,6 +80,7 @@ function renderNotes(data) {
             const removeTodoIcon = document.createElement('i');
             removeTodoIcon.classList.add('fa-solid', 'fa-xmark');
             removeTodoButton.appendChild(removeTodoIcon);
+
             // Add the click event listener for the remove button
             removeTodoButton.addEventListener('click', () => {
                 removeTask(note.id);
@@ -91,12 +98,13 @@ function renderNotes(data) {
         console.error('Error: #todo-list element not found in the DOM');
     }
 }
+
 function markTaskAsDone(taskId) {
     // Log current task ID
     console.log('Current task ID:', taskId);
 
     // Code to update the task status to "Done" on the server
-    fetch(`http://localhost:2001/notes/${taskId}`, {
+    fetch(`http://localhost:2001/notes/status/${taskId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -118,7 +126,7 @@ function markTaskAsDone(taskId) {
             console.log('Data found in database:', data);
 
             // Update the UI to reflect the change immediately
-            const todoElement = document.querySelector(`.todo[data-task-id="${taskId}"]`);
+            const todoElement = document.querySelector(`.todo[data-id="${taskId}"]`);
             if (todoElement) {
                 if (todoElement.classList.contains('done')) {
                     todoElement.classList.remove('done');
@@ -131,7 +139,6 @@ function markTaskAsDone(taskId) {
             console.error('Error updating task status:', error);
         });
 }
-
 
 function removeTask(taskId) {
     fetch(`http://localhost:2001/notes/${taskId}`, {
@@ -149,6 +156,8 @@ function removeTask(taskId) {
             console.error('Error removing task:', error);
         });
 }
+
+
 // Fetch and render the notes
 fetchNotesAndUpdateHTML()
     .catch(error => console.error('Error rendering notes:', error));

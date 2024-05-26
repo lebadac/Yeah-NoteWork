@@ -31,36 +31,60 @@ router.post('/', async (req, res) => {
 // Khai báo biến đếm số lần nhấn
 
 
-router.put('/:taskId', async (req, res) => {
-    try {
-      // Lấy id của nhiệm vụ từ yêu cầu
-      const taskId = req.params.taskId;
-  
-      // Tìm nhiệm vụ theo ID
-      const notes = await Notes.findOne({ where: { id: taskId } });
-  
-      if (!notes) {
-        return res.status(404).json({ message: "Note not found" });
-      }
-  
-      // Kiểm tra trạng thái hiện tại của nhiệm vụ và chuyển đổi
-      if (notes.Status === "done") {
-        notes.Status = "pending";
-      } else if (notes.Status === "pending") {
-        notes.Status = "done";
-      }
-  
-      // Lưu thay đổi
-      await notes.save();
-      
-      // Trả về thông tin nhiệm vụ đã cập nhật
-      res.json(notes);
-    } catch (error) {
-      console.error("Error updating task status:", error);
-      res.status(500).json({ message: "Error updating task status" });
+router.put('/status/:taskId', async (req, res) => {
+  try {
+    // Lấy id của nhiệm vụ từ yêu cầu
+    const taskId = req.params.taskId;
+
+    // Tìm nhiệm vụ theo ID
+    const notes = await Notes.findOne({ where: { id: taskId } });
+
+    if (!notes) {
+      return res.status(404).json({ message: "Note not found" });
     }
-  });
-  
+
+    // Kiểm tra trạng thái hiện tại của nhiệm vụ và chuyển đổi
+    if (notes.Status === "done") {
+      notes.Status = "pending";
+    } else if (notes.Status === "pending") {
+      notes.Status = "done";
+    }
+
+    // Lưu thay đổi
+    await notes.save();
+
+    // Trả về thông tin nhiệm vụ đã cập nhật
+    res.json(notes);
+  } catch (error) {
+    console.error("Error updating task status:", error);
+    res.status(500).json({ message: "Error updating task status" });
+  }
+});
+
+router.put('/edit/:taskId', async (req, res) => {
+  try {
+    // Lấy id của nhiệm vụ từ yêu cầu
+    const taskId = req.params.taskId;
+    const { TaskName, Type } = req.body;
+    // Tìm nhiệm vụ theo ID
+    const notes = await Notes.findOne({ where: { id: taskId } });
+    if (!notes) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+    // Kiểm tra trạng thái hiện tại của nhiệm vụ và chuyển đổi
+    notes.TaskName = TaskName;
+    notes.Type = Type;
+
+    // Lưu thay đổi
+    await notes.save();
+
+    // Trả về thông tin nhiệm vụ đã cập nhật
+    res.json(notes);
+  } catch (error) {
+    console.error("Error updating task status:", error);
+    res.status(500).json({ message: "Error updating task status" });
+  }
+});
 
 
 // Route to delete a task by ID

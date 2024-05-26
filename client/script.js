@@ -61,6 +61,7 @@ document.addEventListener("click", (e) => {
         oldInputValue = todoTitle;
         oldTaskType = todoType;
         controls.classList.toggle("hide");
+
     }
 
     if (targetE1.classList.contains("clear-btn")) {
@@ -113,11 +114,14 @@ cancelEditBtn.addEventListener("click", (e) => {
 // Add event listener for the edit form submission to update a todo
 editForm.addEventListener("submit", (e) => {
     e.preventDefault();
-
+    const editingTaskId = localStorage.getItem('editingTaskId');
     const editInputValue = editInput.value;
     const editTaskTypeValue = editTaskTypeInput.value;
-    if (editInputValue) updateTodo(editInputValue, editTaskTypeValue);
-
+    if (editInputValue) {
+        updateTodo(editInputValue, editTaskTypeValue);
+        updateTask(editingTaskId, editInputValue, editTaskTypeValue);
+        localStorage.setItem('editingTaskId', null);
+    }
     toggleForms();
 });
 
@@ -207,5 +211,26 @@ filterSelect.addEventListener("change", (e) => {
 });
 
 
-
+function updateTask(taskId, newTaskName, newTaskType) {
+    fetch(`http://localhost:2001/notes/edit/${taskId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ TaskName: newTaskName, Type: newTaskType })
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log('Task updated successfully');
+                // Refresh the UI by calling fetchNotesAndUpdateHTML()
+                fetchNotesAndUpdateHTML()
+                    .catch(error => console.error('Error rendering notes:', error));
+            } else {
+                console.error('Error updating task');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating task:', error);
+        });
+}
 
