@@ -86,6 +86,11 @@ function renderNotes(data) {
                 removeTask(note.id);
             });
 
+            // Check the initial status to add the 'done' class if needed
+            if (note.Status === 'done') {
+                todoElement.classList.add('done');
+            }
+            
             todoElement.appendChild(taskNameElement);
             todoElement.appendChild(typeElement);
             todoElement.appendChild(finishTodoButton);
@@ -104,7 +109,7 @@ function markTaskAsDone(taskId) {
     console.log('Current task ID:', taskId);
 
     // Code to update the task status to "Done" on the server
-    fetch(`http://localhost:2001/notes/status/${taskId}`, {
+    fetch(`http://localhost:2001/notes/${taskId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -126,12 +131,12 @@ function markTaskAsDone(taskId) {
             console.log('Data found in database:', data);
 
             // Update the UI to reflect the change immediately
-            const todoElement = document.querySelector(`.todo[data-id="${taskId}"]`);
+            const todoElement = document.querySelector(`.todo[data-task-id="${taskId}"]`);
             if (todoElement) {
-                if (todoElement.classList.contains('done')) {
-                    todoElement.classList.remove('done');
-                } else {
+                if (data.Status === 'done') {
                     todoElement.classList.add('done');
+                } else if (data.Status === 'pending') {
+                    todoElement.classList.remove('done');
                 }
             }
         })
