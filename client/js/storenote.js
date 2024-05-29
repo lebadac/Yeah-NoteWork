@@ -1,6 +1,6 @@
 const todoForm = document.querySelector("#todo-form");
 todoForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     const taskName = todoInput.value;
     const taskType = taskTypeInput.value;
 
@@ -19,17 +19,17 @@ todoForm.addEventListener("submit", async (e) => {
 
         if (response.ok) {
             const responseData = await response.json();
-            alert('Task added successfully!');
+            //alert('Task added successfully!');
             // Clear the input fields
             todoInput.value = '';
             taskTypeInput.value = 'urgent-important';
         } else {
             const errorMessage = await response.text();
-            alert('Failed to add task. Error: ' + errorMessage);
+            //alert('Failed to add task. Error: ' + errorMessage);
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Failed to add task. Error: ' + error.message);
+        // alert('Failed to add task. Error: ' + error.message);
     }
 });
 

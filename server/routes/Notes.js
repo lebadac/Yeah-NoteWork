@@ -28,57 +28,54 @@ router.post('/', async (req, res) => {
   }
 });
 // Route to update the status of a task
-// Khai báo biến đếm số lần nhấn
 
 
 router.put('/:taskId', async (req, res) => {
-    try {
-      // Lấy id của nhiệm vụ từ yêu cầu
-      const taskId = req.params.taskId;
-  
-      // Tìm nhiệm vụ theo ID
-      const notes = await Notes.findOne({ where: { id: taskId } });
-  
-      if (!notes) {
-        return res.status(404).json({ message: "Note not found" });
-      }
-  
-      // Kiểm tra trạng thái hiện tại của nhiệm vụ và chuyển đổi
-      if (notes.Status === "done") {
-        notes.Status = "pending";
-      } else if (notes.Status === "pending") {
-        notes.Status = "done";
-      }
-  
-      // Lưu thay đổi
-      await notes.save();
-      
-      // Trả về thông tin nhiệm vụ đã cập nhật
-      res.json(notes);
-    } catch (error) {
-      console.error("Error updating task status:", error);
-      res.status(500).json({ message: "Error updating task status" });
-    }
-  });
-
-router.put('/edit/:taskId', async (req, res) => {
   try {
-    // Lấy id của nhiệm vụ từ yêu cầu
+    // Get ID from task
     const taskId = req.params.taskId;
-    const { TaskName, Type } = req.body;
-    // Tìm nhiệm vụ theo ID
+    // Find by ID
     const notes = await Notes.findOne({ where: { id: taskId } });
     if (!notes) {
       return res.status(404).json({ message: "Note not found" });
     }
-    // Kiểm tra trạng thái hiện tại của nhiệm vụ và chuyển đổi
+
+    // Check status and change
+    if (notes.Status === "done") {
+      notes.Status = "pending";
+    } else if (notes.Status === "pending") {
+      notes.Status = "done";
+    }
+
+    // Save 
+    await notes.save();
+
+    // Return
+    res.json(notes);
+  } catch (error) {
+    console.error("Error updating task status:", error);
+    res.status(500).json({ message: "Error updating task status" });
+  }
+});
+
+router.put('/edit/:taskId', async (req, res) => {
+  try {
+    // Get ID
+    const taskId = req.params.taskId;
+    const { TaskName, Type } = req.body;
+    // Find by ID
+    const notes = await Notes.findOne({ where: { id: taskId } });
+    if (!notes) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+    // Edit attributes
     notes.TaskName = TaskName;
     notes.Type = Type;
 
-    // Lưu thay đổi
+    // Save
     await notes.save();
 
-    // Trả về thông tin nhiệm vụ đã cập nhật
+    // Return
     res.json(notes);
   } catch (error) {
     console.error("Error updating task status:", error);
@@ -104,14 +101,14 @@ router.delete('/:taskId', async (req, res) => {
 });
 
 router.delete('/all', async (req, res) => {
-    try {
-      await Notes.destroy({ where: {}, truncate: true });
-      res.json({ message: 'All notes have been deleted' });
-    } catch (error) {
-      console.error('Error deleting all notes:', error);
-      res.status(500).json({ message: 'Error deleting all notes' });
-    }
-  });
-  
+  try {
+    await Notes.destroy({ where: {}, truncate: true });
+    res.json({ message: 'All notes have been deleted' });
+  } catch (error) {
+    console.error('Error deleting all notes:', error);
+    res.status(500).json({ message: 'Error deleting all notes' });
+  }
+});
+
 
 module.exports = router;

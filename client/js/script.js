@@ -123,6 +123,7 @@ editForm.addEventListener("submit", (e) => {
         localStorage.setItem('editingTaskId', null);
     }
     toggleForms();
+    window.location.reload();
 });
 
 // Function to update a todo item
@@ -136,6 +137,7 @@ const updateTodo = (text, type) => {
             taskTypeSpan.innerText = type;
         }
     });
+    window.location.reload();
 };
 
 
@@ -150,27 +152,29 @@ const clearAllTodos = () => {
                 fetch(`http://localhost:2001/notes/${note.id}`, {
                     method: 'DELETE'
                 })
-                .then(response => {
-                    if (response.ok) {
-                        console.log(`Task ${note.id} deleted`);
-                        // Clear the UI element
-                        const todoElement = document.querySelector(`.todo[data-task-id="${note.id}"]`);
-                        if (todoElement) {
-                            todoElement.remove();
-                            alert(`Task ${note.id} deleted successfully!`); // Thông báo khi xoá thành công
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`Task ${note.id} deleted`);
+                            // Clear the UI element
+                            const todoElement = document.querySelector(`.todo[data-task-id="${note.id}"]`);
+                            if (todoElement) {
+                                todoElement.remove();
+                                alert(`Task ${note.id} deleted successfully!`); // Thông báo khi xoá thành công
+
+                            }
+                        } else {
+                            console.error(`Error deleting task ${note.id}`);
                         }
-                    } else {
-                        console.error(`Error deleting task ${note.id}`);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             });
         })
         .catch(error => {
             console.error('Error fetching notes:', error);
         });
+    window.location.reload();
 };
 
 
@@ -263,5 +267,6 @@ function updateTask(taskId, newTaskName, newTaskType) {
         .catch(error => {
             console.error('Error updating task:', error);
         });
+    window.location.reload();
 }
 

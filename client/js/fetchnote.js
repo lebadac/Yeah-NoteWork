@@ -90,7 +90,7 @@ function renderNotes(data) {
             if (note.Status === 'done') {
                 todoElement.classList.add('done');
             }
-            
+
             todoElement.appendChild(taskNameElement);
             todoElement.appendChild(typeElement);
             todoElement.appendChild(finishTodoButton);
@@ -143,6 +143,8 @@ function markTaskAsDone(taskId) {
         .catch(error => {
             console.error('Error updating task status:', error);
         });
+    window.location.reload();
+
 }
 
 function removeTask(taskId) {
@@ -160,6 +162,7 @@ function removeTask(taskId) {
         .catch(error => {
             console.error('Error removing task:', error);
         });
+    window.location.reload();
 }
 
 
