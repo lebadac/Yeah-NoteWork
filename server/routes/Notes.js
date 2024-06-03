@@ -100,14 +100,17 @@ router.delete('/:taskId', async (req, res) => {
   }
 });
 
+// Route to delete all notes
+// Route to delete all notes
 router.delete('/all', async (req, res) => {
-  try {
-    await Notes.destroy({ where: {}, truncate: true });
-    res.json({ message: 'All notes have been deleted' });
-  } catch (error) {
-    console.error('Error deleting all notes:', error);
-    res.status(500).json({ message: 'Error deleting all notes' });
-  }
+    console.log('Received request to delete all notes');
+    try {
+        await Notes.destroy({ where: {}, truncate: true });
+        res.json({ message: 'All notes have been deleted' });
+    } catch (error) {
+        console.error('Error deleting all notes:', error);
+        res.status(500).json({ message: 'Error deleting all notes' });
+    }
 });
 
 

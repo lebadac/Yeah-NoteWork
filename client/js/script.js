@@ -143,38 +143,34 @@ const updateTodo = (text, type) => {
 
 // Function to clear all todo items
 const clearAllTodos = () => {
-    // Fetch all notes to get their IDs
     fetch('http://localhost:2001/notes')
         .then(response => response.json())
         .then(data => {
-            // Loop through each note and delete it
-            data.forEach(note => {
+            const deletePromises = data.map(note => 
                 fetch(`http://localhost:2001/notes/${note.id}`, {
                     method: 'DELETE'
                 })
-                    .then(response => {
-                        if (response.ok) {
-                            console.log(`Task ${note.id} deleted`);
-                            // Clear the UI element
-                            const todoElement = document.querySelector(`.todo[data-task-id="${note.id}"]`);
-                            if (todoElement) {
-                                todoElement.remove();
-                                alert(`Task ${note.id} deleted successfully!`); // Thông báo khi xoá thành công
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error deleting task ${note.id}`);
+                    }
+                    const todoElement = document.querySelector(`.todo[data-task-id="${note.id}"]`);
+                    if (todoElement) {
+                        todoElement.remove();
+                    }
+                    console.log(`Task ${note.id} deleted`);
+                })
+            );
 
-                            }
-                        } else {
-                            console.error(`Error deleting task ${note.id}`);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            });
+            return Promise.all(deletePromises);
+        })
+        .then(() => {
+            // alert('All tasks deleted successfully!');
+            window.location.reload();
         })
         .catch(error => {
-            console.error('Error fetching notes:', error);
+            console.error('Error:', error);
         });
-    window.location.reload();
 };
 
 
